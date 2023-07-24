@@ -6,7 +6,7 @@
     <nav class="nav-area">
       <ul class="nav-area-list">
         <li v-for="(page, key) in pageList" :key="key">
-          <nuxt-link to="#">{{ page.title }}</nuxt-link>
+          <nuxt-link :to="page.to">{{ page.title }}</nuxt-link>
         </li>
       </ul>
     </nav>
@@ -17,13 +17,13 @@
 const pageList = ref([
   { title: "案件を探す" },
   { title: "ログイン" },
-  { title: "新規登録" },
+  { title: "新規登録", to: "/registration" },
 ]);
 </script>
 
 <style lang='scss' scoped>
 header {
-  position: fixed;
+  position: absolute;
   z-index: 10;
   width: 100%;
   height: 80px;
