@@ -7,6 +7,7 @@
 <script setup>
 const props = defineProps({
   text: { type: String, default: "ボタン" },
+  background: { type: String, default: "white" },
 });
 const emit = defineEmits(["clickSubmit"]);
 </script>
@@ -19,6 +20,6 @@ button {
   margin: 0;
   border: none;
   font-size: 100%;
-  background-color: transparent;
+  background: v-bind(background);
 }
 </style>

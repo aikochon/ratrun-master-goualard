@@ -27,20 +27,23 @@
 <script setup>
 import { LinkButton } from "@/components/atoms/Buttons";
 import { BasicInput } from "@/components/atoms/Inputs";
+import { postRegistration } from "@/api/user";
 const user = reactive({
   email: "",
   password: "",
 });
-const clickbutton = () => {
-  console.log(user);
+const clickbutton = async () => {
+  try {
+    const res = await postRegistration(user);
+    alert("新規登録に成功しました。画面を遷移します。");
+    router.push("/login");
+  } catch (error) {
+    //
+    alert("新規登録に失敗しました。");
+  }
 };
 const inputvalue = (data) => {
   user[data.name] = data.value;
-  // if (data.name == "email") {
-  //   user.email = data.value;
-  // } else {
-  //   user.password = data.value;
-  // }
   console.log(data);
 };
 </script>
