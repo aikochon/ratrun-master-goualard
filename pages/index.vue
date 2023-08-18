@@ -5,7 +5,7 @@
       <h2>フリーランススタート</h2>
     </div>
     <div class="main-area">
-      <p>案件・求人数</p>
+      <p>案件・求人数 {{ totalCount }} 件</p>
       <p>フリーランスエンジニア専用のIT求人・案件検索サイトで仕事探し</p>
       <div class="search-area">
         <BasicInput
@@ -30,10 +30,23 @@
 import { LinkButton } from "@/components/atoms/Buttons";
 import { BasicInput } from "@/components/atoms/Inputs";
 import { postRegistration } from "@/api/user";
+import { getMattersTotalCount } from "@/api/matter";
 const user = reactive({
   email: "",
   password: "",
 });
+const totalCount = ref(0);
+const updatedDate = ref("");
+(async () => {
+  try {
+    const countData = await getMattersTotalCount();
+    totalCount.value = countData.total_count;
+    updatedDate.value = countData.date;
+    console.log(totalCount.value);
+    console.log(updatedDate.value);
+  } catch (error) {}
+})();
+//即時関数
 const clickbutton = async () => {
   try {
     const res = await postRegistration(user);
