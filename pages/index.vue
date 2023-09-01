@@ -5,7 +5,7 @@
       <h2>フリーランススタート</h2>
     </div>
     <div class="main-area">
-      <p>案件・求人数 {{ totalCount }} 件</p>
+      <p>案件・求人数 {{ totalCount }} 件 ({{ updatedDate }}) 更新</p>
       <p>フリーランスエンジニア専用のIT求人・案件検索サイトで仕事探し</p>
       <div class="search-area">
         <BasicInput
@@ -22,6 +22,16 @@
           class="button"
         />
       </div>
+      <div>
+        <p>おすすめキーワード</p>
+        <Chip
+          v-for="(keyword, key) in keywords"
+          :key="key"
+          @clickSubmite="clickbutton"
+          :text="keyword.name"
+          class="button"
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -30,23 +40,32 @@
 import { LinkButton } from "@/components/atoms/Buttons";
 import { BasicInput } from "@/components/atoms/Inputs";
 import { postRegistration } from "@/api/user";
-import { getMattersTotalCount } from "@/api/matter";
+import { getMattersTotalCount, getMattersKeyword } from "@/api/matter";
+import { Chip } from "@/components/atoms/Chips";
+// import { ChildProcess } from "child_process";
+// import dayjs from "dayjs-nuxt";
+// modeuleに書いているのでimport必要なし
 const user = reactive({
   email: "",
   password: "",
 });
+const dayjs = useDayjs();
 const totalCount = ref(0);
 const updatedDate = ref("");
+const keywords = ref({});
 (async () => {
   try {
     const countData = await getMattersTotalCount();
+    keywords.value = await getMattersKeyword();
     totalCount.value = countData.total_count;
-    updatedDate.value = countData.date;
+    updatedDate.value = dayjs(countData.date).format("MM/DD");
+    // updatedDate.value = countData.date;
     console.log(totalCount.value);
     console.log(updatedDate.value);
+    console.log(keywords.value);
   } catch (error) {}
 })();
-//即時関数
+//即時関数()
 const clickbutton = async () => {
   try {
     const res = await postRegistration(user);
