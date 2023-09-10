@@ -22,7 +22,7 @@
           class="button"
         />
       </div>
-      <div>
+      <div class="recommendKeywords">
         <p>おすすめキーワード</p>
         <Chip
           v-for="(keyword, key) in keywords"
@@ -32,6 +32,24 @@
           class="button"
         />
       </div>
+      <div>
+        <p>開発言語</p>
+        <!-- ProgrammingLanguageオブジェクト内の配列に対してループ -->
+        <div
+          v-for="(language, key) in ProgrammingLanguage"
+          :key="key"
+          class="programmingLanguage"
+        >
+          <!-- オブジェクト内の配列に対してループ -->
+          <div v-for="(keyword, index) in language" :key="index">
+            <Chip
+              @clickSubmite="clickbutton"
+              :text="keyword.name"
+              class="button"
+            />
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -40,7 +58,11 @@
 import { LinkButton } from "@/components/atoms/Buttons";
 import { BasicInput } from "@/components/atoms/Inputs";
 import { postRegistration } from "@/api/user";
-import { getMattersTotalCount, getMattersKeyword } from "@/api/matter";
+import {
+  getMattersTotalCount,
+  getMattersKeyword,
+  getMattersProgrammingLanguage,
+} from "@/api/matter";
 import { Chip } from "@/components/atoms/Chips";
 // import { ChildProcess } from "child_process";
 // import dayjs from "dayjs-nuxt";
@@ -53,16 +75,19 @@ const dayjs = useDayjs();
 const totalCount = ref(0);
 const updatedDate = ref("");
 const keywords = ref({});
+const ProgrammingLanguage = ref({});
 (async () => {
   try {
     const countData = await getMattersTotalCount();
     keywords.value = await getMattersKeyword();
+    ProgrammingLanguage.value = await getMattersProgrammingLanguage();
     totalCount.value = countData.total_count;
     updatedDate.value = dayjs(countData.date).format("MM/DD");
     // updatedDate.value = countData.date;
     console.log(totalCount.value);
     console.log(updatedDate.value);
     console.log(keywords.value);
+    console.log(ProgrammingLanguage.value);
   } catch (error) {}
 })();
 //即時関数()
@@ -124,5 +149,13 @@ div div p {
   border-color: black;
   font-size: 20px;
   background-color: palevioletred;
+}
+
+.recommendKeywords {
+  display: flex;
+}
+
+.programmingLanguage {
+  display: flex;
 }
 </style>

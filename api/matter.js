@@ -7,3 +7,7 @@ export const getMattersTotalCount = () => {
 export const getMattersKeyword = () => {
   return Get(null, "/mattersKeyword");
 };
+
+export const getMattersProgrammingLanguage = () => {
+  return Get(null, "/mattersProgrammingLanguage");
+};
