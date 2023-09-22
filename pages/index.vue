@@ -5,46 +5,84 @@
       <h2>フリーランススタート</h2>
     </div>
     <div class="main-area">
-      <p>案件・求人数 {{ totalCount }} 件 ({{ updatedDate }}) 更新</p>
-      <p>フリーランスエンジニア専用のIT求人・案件検索サイトで仕事探し</p>
       <div class="search-area">
-        <BasicInput
-          @inputValue="inputvalue($event)"
-          title="フリーワードで案件検索"
-          type="email"
-          name="email"
-          :value="user.email"
-        />
-        <LinkButton
-          @clickSubmit="clickbutton"
-          text="案件を検索"
-          href="#"
-          class="button"
-        />
-      </div>
-      <div class="recommendKeywords">
-        <p>おすすめキーワード</p>
-        <Chip
-          v-for="(keyword, key) in keywords"
-          :key="key"
-          @clickSubmite="clickbutton"
-          :text="keyword.name"
-          class="button"
-        />
-      </div>
-      <div>
-        <p>開発言語</p>
-        <!-- ProgrammingLanguageオブジェクト内の配列に対してループ -->
-        <div
-          v-for="(language, key) in ProgrammingLanguage"
-          :key="key"
-          class="programmingLanguage"
-        >
-          <!-- オブジェクト内の配列に対してループ -->
-          <div v-for="(keyword, index) in language" :key="index">
+        <p>案件・求人数 {{ totalCount }} 件 ({{ updatedDate }}) 更新</p>
+        <p>フリーランスエンジニア専用のIT求人・案件検索サイトで仕事探し</p>
+        <div class="search-box">
+          <BasicInput
+            @inputValue="inputvalue($event)"
+            title="フリーワードで案件検索"
+            type="email"
+            name="email"
+            :value="user.email"
+            class="inputBox"
+          />
+          <LinkButton
+            @clickSubmit="clickbutton"
+            text="案件を検索"
+            href="#"
+            class="searchButton"
+          />
+        </div>
+        <div class="middle-area">
+          <h3>おすすめキーワード</h3>
+          <div class="groupOfButtons">
             <Chip
+              v-for="(keyword, key) in keywords"
+              :key="key"
               @clickSubmite="clickbutton"
               :text="keyword.name"
+              class="button"
+            />
+          </div>
+          <h3>開発言語・環境でフリーランス求人・案件を探す</h3>
+          <h3>開発言語</h3>
+          <div class="groupOfButtons">
+            <Chip
+              v-for="(develop, key) in languages.develops"
+              :key="key"
+              @clickSubmite="clickbutton"
+              :text="develop.name"
+              class="button"
+            />
+          </div>
+          <h3>フレームワーク</h3>
+          <div class="groupOfButtons">
+            <Chip
+              v-for="(framework, key) in languages.frameworks"
+              :key="key"
+              @clickSubmite="clickbutton"
+              :text="framework.name"
+              class="button"
+            />
+          </div>
+          <h3>インフラ</h3>
+          <div class="groupOfButtons">
+            <Chip
+              v-for="(infrastructure, key) in languages.infrastructures"
+              :key="key"
+              @clickSubmite="clickbutton"
+              :text="infrastructure.name"
+              class="button"
+            />
+          </div>
+          <h3>デザイン</h3>
+          <div class="groupOfButtons">
+            <Chip
+              v-for="(design, key) in languages.designs"
+              :key="key"
+              @clickSubmite="clickbutton"
+              :text="design.name"
+              class="button"
+            />
+          </div>
+          <h3>その他</h3>
+          <div class="groupOfButtons">
+            <Chip
+              v-for="(other, key) in languages.others"
+              :key="key"
+              @clickSubmite="clickbutton"
+              :text="other.name"
               class="button"
             />
           </div>
@@ -75,22 +113,40 @@ const dayjs = useDayjs();
 const totalCount = ref(0);
 const updatedDate = ref("");
 const keywords = ref({});
-const ProgrammingLanguage = ref({});
+const languages = reactive({
+  develops: [],
+  frameworks: [],
+  infrastructures: [],
+  designs: [],
+  others: [],
+});
 (async () => {
   try {
     const countData = await getMattersTotalCount();
-    keywords.value = await getMattersKeyword();
-    ProgrammingLanguage.value = await getMattersProgrammingLanguage();
     totalCount.value = countData.total_count;
     updatedDate.value = dayjs(countData.date).format("MM/DD");
-    // updatedDate.value = countData.date;
+    keywords.value = await getMattersKeyword();
+    const programmingLanguageData = await getMattersProgrammingLanguage();
+    languages.develops = programmingLanguageData.develops;
+    languages.frameworks = programmingLanguageData.frameworks;
+    languages.infrastructures = programmingLanguageData.infrastructures;
+    languages.designs = programmingLanguageData.designs;
+    languages.others = programmingLanguageData.others;
+
     console.log(totalCount.value);
     console.log(updatedDate.value);
     console.log(keywords.value);
-    console.log(ProgrammingLanguage.value);
-  } catch (error) {}
+    console.log(languages.develops);
+    console.log(languages.frameworks);
+    console.log(languages.infrastructures);
+    console.log(languages.designs);
+    console.log(languages.others);
+  } catch {
+    alert("error");
+  }
 })();
 //即時関数()
+
 const clickbutton = async () => {
   try {
     const res = await postRegistration(user);
@@ -108,10 +164,6 @@ const inputvalue = (data) => {
 </script>
   
 <style lang="scss" scoped>
-div {
-  margin: 0 auto;
-  padding: 20px;
-}
 .title-area {
   display: flex;
   justify-content: center;
@@ -130,32 +182,50 @@ div {
 div div p {
   text-align: center;
 }
-.search-area {
+
+.main-area {
+  margin: 0 10%;
+}
+.search-box {
   display: flex;
   justify-content: center;
-  width: 900px;
-  height: 100px;
+  height: 10%;
   margin: 0 auto;
-  padding: 20px;
 }
-.button {
+.inputBox {
+  height: 45px;
+}
+.searchButton {
   width: 150px;
-  height: 30px;
+  height: 20px;
   text-align: center;
-  margin: 50px auto;
-  padding-top: 15px;
-  line-height: 30px;
-  border-radius: 10px;
+  margin: 4% 0 0 0;
+  padding: 1.5%;
+  border-radius: 40px;
   border-color: black;
-  font-size: 20px;
-  background-color: palevioletred;
+  font-size: 1em;
+  background-color: #66cdaa;
 }
 
-.recommendKeywords {
-  display: flex;
+h3 {
+  margin: 3% 0 0 0;
+  padding: 0;
 }
 
-.programmingLanguage {
+.groupOfButtons {
   display: flex;
+  padding: 0;
+  margin: 1% 0 0 0;
+}
+
+.button {
+  height: 15px;
+  text-align: center;
+  line-height: 1%;
+  margin: 0 1% 0 0;
+  padding: 1.1%;
+  border-radius: 40px;
+  font-size: 1em;
+  border: solid 1px;
 }
 </style>

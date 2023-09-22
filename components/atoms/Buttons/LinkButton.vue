@@ -20,6 +20,7 @@ button {
   margin: 0;
   border: none;
   font-size: 100%;
-  background: v-bind(background);
+  color: #ffffff;
+  background: transparent;
 }
 </style>

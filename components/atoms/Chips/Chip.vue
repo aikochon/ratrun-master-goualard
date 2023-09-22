@@ -20,6 +20,6 @@ button {
   margin: 0;
   border: none;
   font-size: 100%;
-  background: v-bind(background);
+  background: transparent;
 }
 </style>

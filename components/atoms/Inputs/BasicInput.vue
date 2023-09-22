@@ -37,9 +37,7 @@ const emits = defineEmits(["inputValue"]);
 <style lang="scss" scoped>
 .basicinput {
   width: 100%;
-  height: 60px;
   border: none;
-  margin: 10px auto;
 }
 label {
   font-size: 20px;
@@ -47,10 +45,9 @@ label {
 }
 input {
   width: 95%;
-  height: 40px;
-  border-radius: 10px;
+  height: 100%;
+  border-radius: 40px;
   margin: 10px auto;
-  border: solid 1px lightgray;
-  background-color: lightblue;
+  border: solid 1px #000000;
 }
 </style>
