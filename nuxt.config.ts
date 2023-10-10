@@ -14,4 +14,7 @@ export default defineNuxtConfig({
     modules: [
         'dayjs-nuxt'
       ],
+    plugins: [
+        { src: '~/plugins/firebase.client.js', ssr: false },
+    ],
 })
