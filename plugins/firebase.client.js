@@ -7,16 +7,21 @@ import { getAuth, connectAuthEmulator } from "firebase/auth";
 import { defineNuxtPlugin } from "#app";
 
 export default defineNuxtPlugin(() => {
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
+
+  // Your web app's Firebase configuration
   const firebaseConfig = {
-    apiKey: "",
-    authDomain: "",
-    databaseURL: "",
+    apiKey: "AIzaSyCnu3kFqiCWsjyKdtlPOZLNPLsnd0FC71s",
+    authDomain: "ratrun-master.firebaseapp.com",
     projectId: "ratrun-master",
-    storageBucket: "",
-    messagingSenderId: "",
-    appId: "",
+    storageBucket: "ratrun-master.appspot.com",
+    messagingSenderId: "569214282480",
+    appId: "1:569214282480:web:26a58626d2b56d28e7f035",
   };
-  initializeApp(firebaseConfig);
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
 
   const isEmulating = window.location.hostname === "localhost";
   if (isEmulating) {
