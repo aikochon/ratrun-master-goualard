@@ -38,6 +38,7 @@ const emits = defineEmits(["inputValue"]);
 .basicinput {
   width: 100%;
   border: none;
+  margin: 0 auto;
 }
 label {
   font-size: 20px;

@@ -7,6 +7,7 @@
       type="email"
       name="email"
       :value="user.email"
+      class="inputbox"
     />
     <BasicInput
       @inputValue="inputvalue($event)"
@@ -14,6 +15,7 @@
       type="password"
       name="password"
       :value="user.password"
+      class="inputbox"
     />
     <LinkButton
       @clickSubmit="clickbutton"
@@ -53,7 +55,7 @@ div {
   justify-content: center;
   border: solid 1px lightgray;
   width: 700px;
-  height: 400px;
+  height: 450px;
   margin: 200px auto;
   padding: 20px;
 }
@@ -64,12 +66,16 @@ div h2 {
   width: 60%;
   height: 15%;
   text-align: center;
-  margin: 50px auto;
+  margin: 10% auto;
   padding: 0;
   line-height: 20px;
   border-radius: 10px;
   border-color: palevioletred;
   font-size: 20px;
   background-color: palevioletred;
+}
+.inputbox {
+  height: 10%;
+  margin: 5% auto;
 }
 </style>
