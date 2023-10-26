@@ -1,5 +1,6 @@
 <template>
   <div>
+    <BasicLoading v-show="isLoading" />
     <div class="title-area">
       <img src="@/assets/img/rocket.png" alt="rocket" />
       <h2>フリーランススタート</h2>
@@ -96,12 +97,14 @@
 import { LinkButton } from "@/components/atoms/Buttons";
 import { BasicInput } from "@/components/atoms/Inputs";
 import { postRegistration } from "@/api/user";
+import { BasicLoading } from "@/components/atoms/Loadings";
 import {
   getMattersTotalCount,
   getMattersKeyword,
   getMattersProgrammingLanguage,
 } from "@/api/matter";
 import { Chip } from "@/components/atoms/Chips";
+import { ref } from "vue";
 // import { ChildProcess } from "child_process";
 // import dayjs from "dayjs-nuxt";
 // modeuleに書いているのでimport必要なし
